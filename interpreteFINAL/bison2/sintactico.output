@@ -1,0 +1,632 @@
+Gramática
+
+    0 $accept: input $end
+
+    1 input: ε
+    2      | input linea
+
+    3 linea: expresion SALTO
+    4      | expresion PUNTOCOMA SALTO
+    5      | asignacion SALTO
+    6      | asignacion PUNTOCOMA SALTO
+    7      | SALTO
+    8      | EXIT SALTO
+    9      | WORKSPACE SALTO
+   10      | CLEAR SALTO
+   11      | LOAD FICHERO
+   12      | HELP SALTO
+
+   13 expresion: ENTERO
+   14          | FLOTANTE
+   15          | VARIABLE
+   16          | '(' expresion ')'
+   17          | operacion
+   18          | funcion
+
+   19 operacion: expresion '+' expresion
+   20          | expresion '-' expresion
+   21          | '-' expresion
+   22          | expresion '*' expresion
+   23          | expresion '/' expresion
+   24          | expresion '^' expresion
+
+   25 asignacion: VARIABLE IGUAL expresion
+
+   26 funcion: VARIABLE '(' expresion ')'
+   27        | VARIABLE '(' ')'
+
+
+Terminales con las reglas donde aparecen
+
+    $end (0) 0
+    '(' (40) 16 26 27
+    ')' (41) 16 26 27
+    '*' (42) 22
+    '+' (43) 19
+    '-' (45) 20 21
+    '/' (47) 23
+    '^' (94) 24
+    error (256)
+    VARIABLE <lexema> (258) 15 25 26 27
+    FICHERO <lexema> (259) 11
+    ENTERO <num> (260) 13
+    FLOTANTE <num> (261) 14
+    SALTO (262) 3 4 5 6 7 8 9 10 12
+    PUNTOCOMA (263) 4 6
+    EXIT (264) 8
+    WORKSPACE (265) 9
+    CLEAR (266) 10
+    LOAD (267) 11
+    HELP (268) 12
+    IGUAL (269) 25
+
+
+No terminales con las reglas donde aparecen
+
+    $accept (22)
+        on left: 0
+    input (23)
+        on left: 1 2
+        on right: 0 2
+    linea (24)
+        on left: 3 4 5 6 7 8 9 10 11 12
+        on right: 2
+    expresion <num> (25)
+        on left: 13 14 15 16 17 18
+        on right: 3 4 16 19 20 21 22 23 24 25 26
+    operacion <num> (26)
+        on left: 19 20 21 22 23 24
+        on right: 17
+    asignacion <num> (27)
+        on left: 25
+        on right: 5 6
+    funcion <num> (28)
+        on left: 26 27
+        on right: 18
+
+
+Estado 0
+
+    0 $accept: • input $end
+
+    $default  reduce usando la regla 1 (input)
+
+    input  ir al estado 1
+
+
+Estado 1
+
+    0 $accept: input • $end
+    2 input: input • linea
+
+    $end       desplazar e ir al estado 2
+    VARIABLE   desplazar e ir al estado 3
+    ENTERO     desplazar e ir al estado 4
+    FLOTANTE   desplazar e ir al estado 5
+    SALTO      desplazar e ir al estado 6
+    EXIT       desplazar e ir al estado 7
+    WORKSPACE  desplazar e ir al estado 8
+    CLEAR      desplazar e ir al estado 9
+    LOAD       desplazar e ir al estado 10
+    HELP       desplazar e ir al estado 11
+    '-'        desplazar e ir al estado 12
+    '('        desplazar e ir al estado 13
+
+    linea       ir al estado 14
+    expresion   ir al estado 15
+    operacion   ir al estado 16
+    asignacion  ir al estado 17
+    funcion     ir al estado 18
+
+
+Estado 2
+
+    0 $accept: input $end •
+
+    $default  aceptar
+
+
+Estado 3
+
+   15 expresion: VARIABLE •
+   25 asignacion: VARIABLE • IGUAL expresion
+   26 funcion: VARIABLE • '(' expresion ')'
+   27        | VARIABLE • '(' ')'
+
+    IGUAL  desplazar e ir al estado 19
+    '('    desplazar e ir al estado 20
+
+    $default  reduce usando la regla 15 (expresion)
+
+
+Estado 4
+
+   13 expresion: ENTERO •
+
+    $default  reduce usando la regla 13 (expresion)
+
+
+Estado 5
+
+   14 expresion: FLOTANTE •
+
+    $default  reduce usando la regla 14 (expresion)
+
+
+Estado 6
+
+    7 linea: SALTO •
+
+    $default  reduce usando la regla 7 (linea)
+
+
+Estado 7
+
+    8 linea: EXIT • SALTO
+
+    SALTO  desplazar e ir al estado 21
+
+
+Estado 8
+
+    9 linea: WORKSPACE • SALTO
+
+    SALTO  desplazar e ir al estado 22
+
+
+Estado 9
+
+   10 linea: CLEAR • SALTO
+
+    SALTO  desplazar e ir al estado 23
+
+
+Estado 10
+
+   11 linea: LOAD • FICHERO
+
+    FICHERO  desplazar e ir al estado 24
+
+
+Estado 11
+
+   12 linea: HELP • SALTO
+
+    SALTO  desplazar e ir al estado 25
+
+
+Estado 12
+
+   21 operacion: '-' • expresion
+
+    VARIABLE  desplazar e ir al estado 26
+    ENTERO    desplazar e ir al estado 4
+    FLOTANTE  desplazar e ir al estado 5
+    '-'       desplazar e ir al estado 12
+    '('       desplazar e ir al estado 13
+
+    expresion  ir al estado 27
+    operacion  ir al estado 16
+    funcion    ir al estado 18
+
+
+Estado 13
+
+   16 expresion: '(' • expresion ')'
+
+    VARIABLE  desplazar e ir al estado 26
+    ENTERO    desplazar e ir al estado 4
+    FLOTANTE  desplazar e ir al estado 5
+    '-'       desplazar e ir al estado 12
+    '('       desplazar e ir al estado 13
+
+    expresion  ir al estado 28
+    operacion  ir al estado 16
+    funcion    ir al estado 18
+
+
+Estado 14
+
+    2 input: input linea •
+
+    $default  reduce usando la regla 2 (input)
+
+
+Estado 15
+
+    3 linea: expresion • SALTO
+    4      | expresion • PUNTOCOMA SALTO
+   19 operacion: expresion • '+' expresion
+   20          | expresion • '-' expresion
+   22          | expresion • '*' expresion
+   23          | expresion • '/' expresion
+   24          | expresion • '^' expresion
+
+    SALTO      desplazar e ir al estado 29
+    PUNTOCOMA  desplazar e ir al estado 30
+    '^'        desplazar e ir al estado 31
+    '+'        desplazar e ir al estado 32
+    '-'        desplazar e ir al estado 33
+    '*'        desplazar e ir al estado 34
+    '/'        desplazar e ir al estado 35
+
+
+Estado 16
+
+   17 expresion: operacion •
+
+    $default  reduce usando la regla 17 (expresion)
+
+
+Estado 17
+
+    5 linea: asignacion • SALTO
+    6      | asignacion • PUNTOCOMA SALTO
+
+    SALTO      desplazar e ir al estado 36
+    PUNTOCOMA  desplazar e ir al estado 37
+
+
+Estado 18
+
+   18 expresion: funcion •
+
+    $default  reduce usando la regla 18 (expresion)
+
+
+Estado 19
+
+   25 asignacion: VARIABLE IGUAL • expresion
+
+    VARIABLE  desplazar e ir al estado 26
+    ENTERO    desplazar e ir al estado 4
+    FLOTANTE  desplazar e ir al estado 5
+    '-'       desplazar e ir al estado 12
+    '('       desplazar e ir al estado 13
+
+    expresion  ir al estado 38
+    operacion  ir al estado 16
+    funcion    ir al estado 18
+
+
+Estado 20
+
+   26 funcion: VARIABLE '(' • expresion ')'
+   27        | VARIABLE '(' • ')'
+
+    VARIABLE  desplazar e ir al estado 26
+    ENTERO    desplazar e ir al estado 4
+    FLOTANTE  desplazar e ir al estado 5
+    '-'       desplazar e ir al estado 12
+    '('       desplazar e ir al estado 13
+    ')'       desplazar e ir al estado 39
+
+    expresion  ir al estado 40
+    operacion  ir al estado 16
+    funcion    ir al estado 18
+
+
+Estado 21
+
+    8 linea: EXIT SALTO •
+
+    $default  reduce usando la regla 8 (linea)
+
+
+Estado 22
+
+    9 linea: WORKSPACE SALTO •
+
+    $default  reduce usando la regla 9 (linea)
+
+
+Estado 23
+
+   10 linea: CLEAR SALTO •
+
+    $default  reduce usando la regla 10 (linea)
+
+
+Estado 24
+
+   11 linea: LOAD FICHERO •
+
+    $default  reduce usando la regla 11 (linea)
+
+
+Estado 25
+
+   12 linea: HELP SALTO •
+
+    $default  reduce usando la regla 12 (linea)
+
+
+Estado 26
+
+   15 expresion: VARIABLE •
+   26 funcion: VARIABLE • '(' expresion ')'
+   27        | VARIABLE • '(' ')'
+
+    '('  desplazar e ir al estado 20
+
+    $default  reduce usando la regla 15 (expresion)
+
+
+Estado 27
+
+   19 operacion: expresion • '+' expresion
+   20          | expresion • '-' expresion
+   21          | '-' expresion •
+   22          | expresion • '*' expresion
+   23          | expresion • '/' expresion
+   24          | expresion • '^' expresion
+
+    '*'  desplazar e ir al estado 34
+    '/'  desplazar e ir al estado 35
+
+    $default  reduce usando la regla 21 (operacion)
+
+
+Estado 28
+
+   16 expresion: '(' expresion • ')'
+   19 operacion: expresion • '+' expresion
+   20          | expresion • '-' expresion
+   22          | expresion • '*' expresion
+   23          | expresion • '/' expresion
+   24          | expresion • '^' expresion
+
+    '^'  desplazar e ir al estado 31
+    '+'  desplazar e ir al estado 32
+    '-'  desplazar e ir al estado 33
+    '*'  desplazar e ir al estado 34
+    '/'  desplazar e ir al estado 35
+    ')'  desplazar e ir al estado 41
+
+
+Estado 29
+
+    3 linea: expresion SALTO •
+
+    $default  reduce usando la regla 3 (linea)
+
+
+Estado 30
+
+    4 linea: expresion PUNTOCOMA • SALTO
+
+    SALTO  desplazar e ir al estado 42
+
+
+Estado 31
+
+   24 operacion: expresion '^' • expresion
+
+    VARIABLE  desplazar e ir al estado 26
+    ENTERO    desplazar e ir al estado 4
+    FLOTANTE  desplazar e ir al estado 5
+    '-'       desplazar e ir al estado 12
+    '('       desplazar e ir al estado 13
+
+    expresion  ir al estado 43
+    operacion  ir al estado 16
+    funcion    ir al estado 18
+
+
+Estado 32
+
+   19 operacion: expresion '+' • expresion
+
+    VARIABLE  desplazar e ir al estado 26
+    ENTERO    desplazar e ir al estado 4
+    FLOTANTE  desplazar e ir al estado 5
+    '-'       desplazar e ir al estado 12
+    '('       desplazar e ir al estado 13
+
+    expresion  ir al estado 44
+    operacion  ir al estado 16
+    funcion    ir al estado 18
+
+
+Estado 33
+
+   20 operacion: expresion '-' • expresion
+
+    VARIABLE  desplazar e ir al estado 26
+    ENTERO    desplazar e ir al estado 4
+    FLOTANTE  desplazar e ir al estado 5
+    '-'       desplazar e ir al estado 12
+    '('       desplazar e ir al estado 13
+
+    expresion  ir al estado 45
+    operacion  ir al estado 16
+    funcion    ir al estado 18
+
+
+Estado 34
+
+   22 operacion: expresion '*' • expresion
+
+    VARIABLE  desplazar e ir al estado 26
+    ENTERO    desplazar e ir al estado 4
+    FLOTANTE  desplazar e ir al estado 5
+    '-'       desplazar e ir al estado 12
+    '('       desplazar e ir al estado 13
+
+    expresion  ir al estado 46
+    operacion  ir al estado 16
+    funcion    ir al estado 18
+
+
+Estado 35
+
+   23 operacion: expresion '/' • expresion
+
+    VARIABLE  desplazar e ir al estado 26
+    ENTERO    desplazar e ir al estado 4
+    FLOTANTE  desplazar e ir al estado 5
+    '-'       desplazar e ir al estado 12
+    '('       desplazar e ir al estado 13
+
+    expresion  ir al estado 47
+    operacion  ir al estado 16
+    funcion    ir al estado 18
+
+
+Estado 36
+
+    5 linea: asignacion SALTO •
+
+    $default  reduce usando la regla 5 (linea)
+
+
+Estado 37
+
+    6 linea: asignacion PUNTOCOMA • SALTO
+
+    SALTO  desplazar e ir al estado 48
+
+
+Estado 38
+
+   19 operacion: expresion • '+' expresion
+   20          | expresion • '-' expresion
+   22          | expresion • '*' expresion
+   23          | expresion • '/' expresion
+   24          | expresion • '^' expresion
+   25 asignacion: VARIABLE IGUAL expresion •
+
+    '^'  desplazar e ir al estado 31
+    '+'  desplazar e ir al estado 32
+    '-'  desplazar e ir al estado 33
+    '*'  desplazar e ir al estado 34
+    '/'  desplazar e ir al estado 35
+
+    $default  reduce usando la regla 25 (asignacion)
+
+
+Estado 39
+
+   27 funcion: VARIABLE '(' ')' •
+
+    $default  reduce usando la regla 27 (funcion)
+
+
+Estado 40
+
+   19 operacion: expresion • '+' expresion
+   20          | expresion • '-' expresion
+   22          | expresion • '*' expresion
+   23          | expresion • '/' expresion
+   24          | expresion • '^' expresion
+   26 funcion: VARIABLE '(' expresion • ')'
+
+    '^'  desplazar e ir al estado 31
+    '+'  desplazar e ir al estado 32
+    '-'  desplazar e ir al estado 33
+    '*'  desplazar e ir al estado 34
+    '/'  desplazar e ir al estado 35
+    ')'  desplazar e ir al estado 49
+
+
+Estado 41
+
+   16 expresion: '(' expresion ')' •
+
+    $default  reduce usando la regla 16 (expresion)
+
+
+Estado 42
+
+    4 linea: expresion PUNTOCOMA SALTO •
+
+    $default  reduce usando la regla 4 (linea)
+
+
+Estado 43
+
+   19 operacion: expresion • '+' expresion
+   20          | expresion • '-' expresion
+   22          | expresion • '*' expresion
+   23          | expresion • '/' expresion
+   24          | expresion • '^' expresion
+   24          | expresion '^' expresion •
+
+    '^'  desplazar e ir al estado 31
+    '+'  desplazar e ir al estado 32
+    '-'  desplazar e ir al estado 33
+    '*'  desplazar e ir al estado 34
+    '/'  desplazar e ir al estado 35
+
+    $default  reduce usando la regla 24 (operacion)
+
+
+Estado 44
+
+   19 operacion: expresion • '+' expresion
+   19          | expresion '+' expresion •
+   20          | expresion • '-' expresion
+   22          | expresion • '*' expresion
+   23          | expresion • '/' expresion
+   24          | expresion • '^' expresion
+
+    '-'  desplazar e ir al estado 33
+    '*'  desplazar e ir al estado 34
+    '/'  desplazar e ir al estado 35
+
+    $default  reduce usando la regla 19 (operacion)
+
+
+Estado 45
+
+   19 operacion: expresion • '+' expresion
+   20          | expresion • '-' expresion
+   20          | expresion '-' expresion •
+   22          | expresion • '*' expresion
+   23          | expresion • '/' expresion
+   24          | expresion • '^' expresion
+
+    '*'  desplazar e ir al estado 34
+    '/'  desplazar e ir al estado 35
+
+    $default  reduce usando la regla 20 (operacion)
+
+
+Estado 46
+
+   19 operacion: expresion • '+' expresion
+   20          | expresion • '-' expresion
+   22          | expresion • '*' expresion
+   22          | expresion '*' expresion •
+   23          | expresion • '/' expresion
+   24          | expresion • '^' expresion
+
+    '/'  desplazar e ir al estado 35
+
+    $default  reduce usando la regla 22 (operacion)
+
+
+Estado 47
+
+   19 operacion: expresion • '+' expresion
+   20          | expresion • '-' expresion
+   22          | expresion • '*' expresion
+   23          | expresion • '/' expresion
+   23          | expresion '/' expresion •
+   24          | expresion • '^' expresion
+
+    $default  reduce usando la regla 23 (operacion)
+
+
+Estado 48
+
+    6 linea: asignacion PUNTOCOMA SALTO •
+
+    $default  reduce usando la regla 6 (linea)
+
+
+Estado 49
+
+   26 funcion: VARIABLE '(' expresion ')' •
+
+    $default  reduce usando la regla 26 (funcion)

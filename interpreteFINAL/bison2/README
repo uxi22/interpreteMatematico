@@ -1,0 +1,5 @@
+- El intérprete se compila ejecutando el script adjunto. Acceder al directorio en el que esté con la terminal y escribir: ./script.
+
+- Para utilizar el intérprete, se ejecuta accediendo desde la terminal al directorio y se escribe: ./interprete.
+
+- Para utilizar en el intérprete un fichero, este debe estar en el mismo directorio. Ejecutar escribiendo: ./interprete "nombre_fichero". Se proporciona el fichero prueba.txt.

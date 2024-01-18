@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo "<inicio compilación>"
+
+flex -l lexico.l
+bison -dv sintactico.y
+gcc lex.yy.c sintactico.tab.c main.c ts.c abb.c errores.c -o interprete -lfl -lm
+
+echo "<fin compilación>"
+
